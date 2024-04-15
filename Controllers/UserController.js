@@ -1,3 +1,5 @@
+const Users = require('../Models/users');
+
 /**
  * @returns JSON response object.
  * @description An asynchronous function to get all the users from the database.
@@ -6,7 +8,10 @@
  * @access Public.
  */
 const getUsers = async function(req, res) {
-  res.json({ message: 'Retrived users' });
+  const users = await Users.find();
+
+  // res.json({ message: 'Retrived users' });
+  res.status(200).json(users);
 }
 
 /**
@@ -22,7 +27,16 @@ const setUser = async function(req, res) {
     throw new Error('Name field shouldn\'t be empty');
   }
   console.log(req.body);
-  res.json({ message: 'User added' });
+  // res.json({ message: 'User added' });
+  const user = await Users.create({
+    firstName: req.body.name,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    gender: req.body.gender,
+    age: req.body.age,
+  });
+  
+  res.status(201).json(user);
 }
 
 /**
