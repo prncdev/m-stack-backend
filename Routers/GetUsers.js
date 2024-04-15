@@ -5,7 +5,7 @@ const {
     setUser,
     updateUser,
     deleteUser
-  } = require('../Controllers/UserController');
+  } = require('../controllers/UserController');
 
 /*
 Routes.get('/', function(req, res) {

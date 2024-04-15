@@ -1,4 +1,4 @@
-const Users = require('../Models/users');
+const Users = require('../models/users');
 
 /**
  * @returns JSON response object.
