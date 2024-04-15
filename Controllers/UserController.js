@@ -47,7 +47,18 @@ const setUser = async function(req, res) {
  * @access Public.
  */
 const updateUser = async function(req, res) {
-  res.json({ message: `User updated with id: ${req.params.id}` });
+  const user = await Users.findById(req.params.id);
+
+  if(!user) {
+    res.status(404);
+    throw new Error(`No user found with the ID: ${req.params.id}`);
+  }
+
+  // The third argument of `findByIdAndUpdate` method is telling mongoose if the field weren't there then add and update the document.
+  const updatedUser = await Users.findByIdAndUpdate(req.params.id, req.body, {new: true});
+
+  // res.json({ message: `User updated with id: ${req.params.id}` });
+  res.status(201).json(updatedUser);
 }
 
 /**
@@ -58,7 +69,16 @@ const updateUser = async function(req, res) {
  * @access Public.
  */
 const deleteUser = async function(req, res) {
-  res.json({ message: `user deleted with id: ${req.params.id}` });
+  const user = await Users.findById(req.params.id);
+  if(!user) {
+    res.status(404);
+    throw new Error('Provide a valid id to delete the user');
+  }
+  const deletedUser = await Users.findByIdAndDelete(req.params.id);
+  // This will return deleted user.
+  // console.log(deletedUser);
+  // res.json({ message: `user deleted with id: ${req.params.id}` });
+  res.status(200).json({ id: req.params.id });
 }
 
 module.exports = {
